@@ -44,8 +44,8 @@ def read_conll06_file(file_path: str) -> List[Sentence]:
     return sentences
 
 
-def write_conll06_file(sentences: List[Sentence], out_file_path: str):
+# write back to file in conll06 format
+def write_conll06_file(sentences: List[Sentence], out_file_path: str) -> None:
     with open(out_file_path, "w") as f:
-        f.writelines(sentences)
-
-
+        for sentence in sentences:
+            f.write(str(sentence))
