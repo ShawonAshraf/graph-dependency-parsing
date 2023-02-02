@@ -34,7 +34,7 @@ def read_conll06_file(file_path: str) -> List[Sentence]:
     # process
     for idx, line in tqdm(enumerate(lines), desc="process_read_lines"):
         tokens = []
-        for token_info in line[2:]:
+        for token_info in line:
             temp = token_info.split("\t")
             token = Conll06Token(*temp)
             tokens.append(token)
@@ -43,5 +43,6 @@ def read_conll06_file(file_path: str) -> List[Sentence]:
     return sentences
 
 
-def write_conll06_file(file_path: str):
-    pass
+def write_conll06_file(sentences: List[Sentence], out_file_path: str):
+    with open(out_file_path, "w") as f:
+        f.writelines(sentences)
