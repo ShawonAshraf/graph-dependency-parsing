@@ -1,9 +1,47 @@
 import os
+from typing import List
+
+from tqdm.auto import tqdm
+
+from .conll06_token import Conll06Token
+from .sentence import Sentence
 
 
-def read_conll06_file(file_path):
+def read_conll06_file(file_path: str) -> List[Sentence]:
     assert os.path.exists(file_path)
 
+    # list for all sentences
+    sentences: List[Sentence] = []
 
-def write_conll06_file(file_path):
+    # read file
+    with open(file_path, "r") as f:
+        lines_in_file = f.readlines()
+
+    # temp space for processing lines
+    lines: List[str] = []
+    buffer: List[str] = []
+    for _, line in tqdm(enumerate(lines_in_file), desc="read_lines_from_file"):
+        if line == "\n":
+            lines.append(buffer)
+            # clear buffer
+            buffer = []
+        else:
+            buffer.append(line)
+
+    # make sure that buffer is always empty after the loop ends
+    assert len(buffer) == 0
+
+    # process
+    for idx, line in tqdm(enumerate(lines), desc="process_read_lines"):
+        tokens = []
+        for token_info in line[2:]:
+            temp = token_info.split("\t")
+            token = Conll06Token(*temp)
+            tokens.append(token)
+
+        sentences.append(tokens)
+    return sentences
+
+
+def write_conll06_file(file_path: str):
     pass
