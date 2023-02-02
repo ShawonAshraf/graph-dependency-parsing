@@ -39,10 +39,13 @@ def read_conll06_file(file_path: str) -> List[Sentence]:
             token = Conll06Token(*temp)
             tokens.append(token)
 
-        sentences.append(tokens)
+        # create sentence object and append
+        sentences.append(Sentence(tokens))
     return sentences
 
 
 def write_conll06_file(sentences: List[Sentence], out_file_path: str):
     with open(out_file_path, "w") as f:
         f.writelines(sentences)
+
+
