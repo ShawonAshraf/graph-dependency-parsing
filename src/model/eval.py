@@ -3,6 +3,7 @@ from data.sentence import Sentence
 import numpy as np
 
 
+# count the number of heads that match
 # for one sentence
 def count_correct_heads(gold: Sentence, pred: Sentence):
     gold_tokens = gold.tokens
@@ -16,6 +17,12 @@ def count_correct_heads(gold: Sentence, pred: Sentence):
 
     return n_matches
 
+# count head and label matches
+
+
+def count_correct_head_and_label(gold: Sentence, pred: Sentence):
+    pass
+
 
 def uas(gold: List[Sentence], pred: List[Sentence]):
     # count all the tokens
@@ -26,7 +33,7 @@ def uas(gold: List[Sentence], pred: List[Sentence]):
     assert n_tokens_gold == n_tokens_pred
 
     # count how many heads match between gold and pred
-    scores = np.zeros(shape=(n_tokens_gold,), dtype=np.float32)
+    scores = np.zeros(shape=(len(gold),), dtype=np.float32)
     for idx in range(len(gold)):
         scores[idx] = count_correct_heads(gold[idx], pred[idx])
 
@@ -35,4 +42,12 @@ def uas(gold: List[Sentence], pred: List[Sentence]):
 
 
 def las(gold: List[Sentence], pred: List[Sentence]):
-    pass
+    # count all the tokens
+    n_tokens_gold = sum([len(s.tokens) for s in gold])
+    n_tokens_pred = sum([len(s.tokens) for s in pred])
+
+    # both must be equal
+    assert n_tokens_gold == n_tokens_pred
+
+    # label and head scores
+    scores = np.zeros
