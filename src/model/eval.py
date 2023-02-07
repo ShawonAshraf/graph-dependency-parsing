@@ -1,10 +1,13 @@
 from typing import List
-from data.sentence import Sentence
+
 import numpy as np
+from data.sentence import Sentence
 
 
 # count the number of heads that match
 # for one sentence
+
+
 def count_correct_heads(gold: Sentence, pred: Sentence):
     gold_tokens = gold.tokens
     pred_tokens = pred.tokens
@@ -17,11 +20,33 @@ def count_correct_heads(gold: Sentence, pred: Sentence):
 
     return n_matches
 
+
 # count head and label matches
+# for one sentence
 
 
 def count_correct_head_and_label(gold: Sentence, pred: Sentence):
-    pass
+    gold_tokens = gold.tokens
+    pred_tokens = pred.tokens
+
+    # get heads of all tokens
+    gold_heads = [tok.head for tok in gold_tokens]
+    pred_heads = [tok.head for tok in pred_tokens]
+
+    # labels - rel
+    gold_labels = [tok.rel for tok in gold_tokens]
+    pred_labels = [tok.rel for tok in pred_tokens]
+
+    # iterate and match
+    scores = np.zeros(shape=(len(gold_heads), ))
+    for i in range(len(gold_heads)):
+        if gold_heads[i] == pred_heads[i] and gold_labels[i] == pred_labels[i]:
+            scores[i] += 1.0
+
+    return np.sum(scores)
+
+
+# unlabeled attachment
 
 
 def uas(gold: List[Sentence], pred: List[Sentence]):
@@ -41,6 +66,9 @@ def uas(gold: List[Sentence], pred: List[Sentence]):
     return np.sum(scores) / float(n_tokens_gold)
 
 
+# labeled attachment
+
+
 def las(gold: List[Sentence], pred: List[Sentence]):
     # count all the tokens
     n_tokens_gold = sum([len(s.tokens) for s in gold])
@@ -50,4 +78,8 @@ def las(gold: List[Sentence], pred: List[Sentence]):
     assert n_tokens_gold == n_tokens_pred
 
     # label and head scores
-    scores = np.zeros
+    scores = np.zeros(shape=(len(gold), ), dtype=np.float32)
+    for i in range(len(gold)):
+        scores[i] = count_correct_head_and_label(gold[i], pred[i])
+
+    return np.sum(scores) / float(n_tokens_gold)
