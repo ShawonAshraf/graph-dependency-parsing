@@ -18,8 +18,8 @@ def read_conll06_file(file_path: str) -> List[Sentence]:
         lines_in_file = f.readlines()
 
     # temp space for processing lines
-    lines: List[str] = []
-    buffer: List[str] = []
+    lines = []
+    buffer = []
     for _, line in tqdm(enumerate(lines_in_file), desc="read_lines_from_file"):
         if line == "\n":
             lines.append(buffer)
