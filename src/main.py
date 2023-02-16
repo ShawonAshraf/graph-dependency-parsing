@@ -24,6 +24,3 @@ if __name__ == "__main__":
 
     las_score = las(gold, pred)
     print(las_score)
-
-    g = Graph(gold[0])
-    print(g.matrix)
