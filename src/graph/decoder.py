@@ -91,7 +91,16 @@ if __name__ == "__main__":
         [-np.Inf, 30, -np.Inf, 30],
         [-np.Inf, 11, 0, -np.Inf]
     ])  # type: ignore
-    graph = construct_graph(adjacency_matrix)
+
+    mat2 = np.array([
+        [-np.Inf, 5, 10, -np.Inf, -np.Inf],
+        [-np.Inf] * 5,
+        [-np.Inf, 20, -np.Inf, 40, 30],
+        [-np.Inf, -np.Inf, -np.Inf, -np.Inf, 9],
+        [-np.Inf] * 5,
+    ])  # type: ignore
+
+    graph = construct_graph(mat2)
     graph = cle(graph)
 
     for node in graph.nodes:
