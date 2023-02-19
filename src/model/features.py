@@ -24,24 +24,24 @@ def extract_feature(sentence: Sentence) -> List[str]:
     for idx, tok in enumerate(tokens):
         # check if head is root (_id = 0)
         if tok.head == 0:
-            hpos = "ROOT"
-            # hpos+1
+            hform = "ROOT"
+            # hform+1
             # HROOT means the head was root
-            hpos_plus_1 = "<HROOT>"
+            hform_plus_1 = "<HROOT>"
         else:
-            hpos = tokens[tok.head - 1].form
-            # hpos+1
+            hform = tokens[tok.head - 1].form
+            # hform+1
             # if end of sentence is reached, add EOS
-            hpos_plus_1 = tokens[tok.head - 1].form if not tok.head == len(tokens) else "<EOS>"
+            hform_plus_1 = tokens[tok.head - 1].form if not tok.head == len(tokens) else "<EOS>"
 
         # dependent
-        dpos = tok.form
-        # dpos+1
+        dform = tok.form
+        # dform+1
         # if the last token in the sentence add EOS
-        dpos_plus_1 = tokens[idx + 1].form if not idx == len(tokens) - 1 else "<EOS>"
+        dform_plus_1 = tokens[idx + 1].form if not idx == len(tokens) - 1 else "<EOS>"
 
         # add all to a string
-        feature_str = f"hpos={hpos},dpos={dpos},hpos+1={hpos_plus_1},dpos+1={dpos_plus_1}"
+        feature_str = f"hform={hform},dform={dform},hform+1={hform_plus_1},dform+1={dform_plus_1}"
         features.append(feature_str)
 
     return features
