@@ -2,6 +2,7 @@ import json
 
 from data.io import read_conll06_file
 from model.eval import las, uas
+from model.features import extract_feature
 
 # read configs from a json file for now
 # replace later with argparse
@@ -23,3 +24,5 @@ if __name__ == "__main__":
 
     las_score = las(gold, pred)
     print(las_score)
+
+    
