@@ -5,7 +5,7 @@ from typing import List
 
 # for a single sentence
 # returns a list of feature strings
-def extract_feature(sentence: Sentence):
+def extract_feature(sentence: Sentence) -> List[str]:
     tokens = sentence.tokens
 
     features: List[str] = list()
@@ -24,3 +24,8 @@ def extract_feature(sentence: Sentence):
         features.append(feature_str)
 
     return features
+
+
+# for a single sentence
+def get_labels(sentence: Sentence):
+    pass
