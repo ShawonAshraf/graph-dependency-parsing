@@ -72,6 +72,7 @@ def preprocess(sentences: List[Sentence]):
         for feat in features:
             if feat not in feature_dict.keys():
                 feature_dict[feat] = feature_counter + 1
+                feature_counter += 1  # inc after each entry
             else:
                 continue
 
