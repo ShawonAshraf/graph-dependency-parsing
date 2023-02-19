@@ -1,6 +1,6 @@
 # from data.conll06_token import Conll06Token
 from data.sentence import Sentence
-from typing import List
+from typing import List, Tuple
 
 
 # for a single sentence
@@ -27,5 +27,13 @@ def extract_feature(sentence: Sentence) -> List[str]:
 
 
 # for a single sentence
-def get_labels(sentence: Sentence):
-    pass
+def get_labels(sentence: Sentence) -> List[Tuple]:
+    # a list of (rel, head) tuples
+    labels: List[Tuple] = list()
+    
+    tokens = sentence.tokens
+    for tok in tokens:
+        labels.append((tok.rel, tok.head))
+        
+    return labels
+        
