@@ -1,13 +1,13 @@
-# from data.conll06_token import Conll06Token
 from dataclasses import dataclass
-from typing import List, Tuple
+from typing import List, Tuple, Dict
 
+import numpy as np
 from data.sentence import Sentence
 
 
 # feature class for a single sentence
 @dataclass
-class Feature:
+class ProcessedInstance:
     features: List[str]
     labels: List[Tuple]
 
@@ -61,7 +61,7 @@ def get_labels(sentence: Sentence) -> List[Tuple]:
 
 def preprocess(sentences: List[Sentence]):
     feature_dict = dict()
-    all_features: List[Feature] = list()
+    all_features: List[ProcessedInstance] = list()
 
     feature_counter = 0
 
@@ -76,6 +76,27 @@ def preprocess(sentences: List[Sentence]):
             else:
                 continue
 
-        all_features.append(Feature(features, labels))
+        all_features.append(ProcessedInstance(features, labels))
 
     return feature_dict, all_features
+
+
+# features from one sentence
+def vectorize_feature_list(fdict: Dict, features: List[str]) -> np.ndarray:
+    vector = np.ones(shape=(len(features, ))) * -1.0
+
+    for idx, feat in enumerate(features):
+        if feat in fdict.keys():
+            vector[idx] = fdict[feat]
+
+    return vector
+
+
+# create rep for features from all the sentences
+def create_vector_representation(fdict: Dict, preprocessed: List[ProcessedInstance]) -> np.ndarray:
+    feature_rep = list()
+    for pi in preprocessed:
+        v = vectorize_feature_list(fdict, pi.features)
+        feature_rep.append(v)
+
+    return np.array(feature_rep)
