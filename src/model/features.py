@@ -99,7 +99,7 @@ def create_vector_representation(fdict: Dict, preprocessed: List[ProcessedInstan
         v = vectorize_feature_list(fdict, pi.features)
         feature_rep.append(v)
 
-    return np.array(feature_rep)
+    return np.array(feature_rep, dtype=object)
 
 
 # encode the labels
