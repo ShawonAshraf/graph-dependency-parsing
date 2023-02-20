@@ -2,14 +2,13 @@ import json
 
 from data.io import read_conll06_file
 from model.eval import las, uas
-from model.features import preprocess, extract_feature
+from model.features import preprocess, create_vector_representation, encode_labels
 
 # read configs from a json file for now
 # replace later with argparse
 config_file_path = "../config.json"
 with open(config_file_path, "r") as json_file:
     config = json.load(json_file)
-
 
 if __name__ == "__main__":
     # sentences = read_conll06_file(config["file"])
@@ -26,6 +25,11 @@ if __name__ == "__main__":
     print(las_score)
 
     fdict, fs = preprocess(gold)
-    print(fs)
+    # print(create_vector_representation(fdict, fs))
+
+    rep = create_vector_representation(fdict, fs)
+    lab = encode_labels(fs)
+
+    # print(fdict)
     # print(gold[23])
     # extract_feature(gold[23])

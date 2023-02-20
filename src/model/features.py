@@ -100,3 +100,25 @@ def create_vector_representation(fdict: Dict, preprocessed: List[ProcessedInstan
         feature_rep.append(v)
 
     return np.array(feature_rep)
+
+
+# encode the labels
+# convert rel labels to digits
+def encode_labels(preprocessed: List[ProcessedInstance]) -> List[Tuple]:
+    encoded = list()
+
+    all_labels = {'IM', 'P', 'QMOD', 'OPRD', 'INTJ', 'CONJ', 'SBJ', 'PRT',
+                  'APPO', 'GAP', 'PMOD', 'EXTR', 'OBJ', 'LGS',
+                  'COORD', 'ADV', 'NMOD', 'ROOT', 'AMOD', 'SUB',
+                  'VC', 'PRN', 'DEP', 'GAP-SBJ'}
+
+    label_dict = {}
+    for idx, label in enumerate(all_labels):
+        label_dict[label] = idx
+
+    # encode
+    for idx, pi in enumerate(preprocessed):
+        enc = [(label_dict[label[0]], label[1]) for label in pi.labels]
+        encoded.append(enc)
+
+    return encoded
