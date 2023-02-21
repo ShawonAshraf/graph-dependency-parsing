@@ -32,7 +32,7 @@ def extract_feature(sentence: Sentence) -> List[str]:
             hform = tokens[tok.head - 1].form
             # hform+1
             # if end of sentence is reached, add EOS
-            hform_plus_1 = tokens[tok.head - 1].form if not tok.head == len(tokens) else "<EOS>"
+            hform_plus_1 = tokens[tok.head].form if not tok.head == len(tokens) else "<EOS>"
 
         # dependent
         dform = tok.form
