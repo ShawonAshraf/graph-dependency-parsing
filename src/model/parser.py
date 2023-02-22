@@ -5,6 +5,7 @@ from .perceptron import Perceptron
 from .features import ProcessedInstance
 from .eval import uas
 from typing import List, Dict, Callable
+from data.sentence import Sentence
 
 
 class Parser:
@@ -22,7 +23,7 @@ class Parser:
     # parse tokens from a single sentence
     def parse(self, sentence_features: List[List[str]]):
         score_matrix = self.perceptron.forward(sentence_features)
-        print(score_matrix)
+        # print(score_matrix)
         # construct a graph and pass to decoder
         graph = self.decoder_fn(score_matrix)
 
@@ -53,9 +54,8 @@ class Parser:
               dev_instances: List[ProcessedInstance]):
         print("\n================ Training Parser ===============\n")
         self.perceptron.train(epochs, train_instances)
-        # shuffle train_instances
-        np.random.shuffle(train_instances)
 
-    # generate a tree from the predicted results
-    def generate_tree_from_pred(self):
-        pass
+
+    def generate_tree(self, sentences: List[Sentence], features: List[List[str]]):
+        for idx, sentence in tqdm(enumerate(sentences)):
+            pass
