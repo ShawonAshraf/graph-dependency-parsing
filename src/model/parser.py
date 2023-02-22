@@ -6,6 +6,8 @@ from .features import extract_feature_permutation
 from .eval import uas
 from typing import List, Dict, Callable
 from data.sentence import Sentence
+import gzip
+import pickle
 
 
 class Parser:
@@ -17,7 +19,8 @@ class Parser:
         self.decoder_fn = decoder_fn
 
         # for logging
-        self.uas_scores_over_epochs = list()
+        self.uas_train_scores_over_epochs = list()
+        self.uas_dev_scores_over_epochs = list()
 
     # a forward pass for the parser
     # parse tokens from a single sentence
@@ -62,11 +65,35 @@ class Parser:
     # perceptron
     def train(self,
               epochs: int,
-              train_instances: List[ProcessedInstance],
-              dev_instances: List[ProcessedInstance]):
+              train_set: List[Sentence],
+              dev_set: List[Sentence]):
         print("\n================ Training Parser ===============\n")
-        self.perceptron.train(epochs, train_instances)
+        for _ in trange(epochs):
+            self.perceptron.train(epochs, sentences=train_set)
 
+            # eval on train
+            avg_train_uas = self.eval(train_set)
+            self.uas_train_scores_over_epochs.append(avg_train_uas)
+
+            # eval on dev
+            avg_dev_uas = self.eval(dev_set)
+            self.uas_train_scores_over_epochs.append(avg_dev_uas)
+
+    def eval(self, sentences: List[Sentence]):
+        scores = list()
+
+        for sentence in sentences:
+            preds, _ = self.parse(sentence)
+            gold = [tok.head for tok in sentence.tokens]
+
+            scores.append(uas(gold, preds))
+
+        return np.mean(scores)
+
+    def save_scores(self):
+        with gzip.open("scores.pickle", "wb") as fp:
+            pickle.dump(self.uas_train_scores_over_epochs)
+            pickle.dump(self.uas_train_scores_over_epochs)
 
     def generate_tree(self, sentences: List[Sentence], features: List[List[str]]):
         for idx, sentence in tqdm(enumerate(sentences)):
