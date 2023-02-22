@@ -71,7 +71,7 @@ class Parser:
               dev_set: List[Sentence]):
         print("\n================ Training Parser ===============\n")
         for e in trange(epochs):
-            self.perceptron.train(epochs, sentences=train_set)
+            self.perceptron.train(epochs=1, sentences=train_set)
 
             # eval on train
             avg_train_uas = self.eval(train_set)
