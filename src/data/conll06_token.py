@@ -19,7 +19,12 @@ class Conll06Token:
     # the file reader return strings
     def __post_init__(self):
         self._id = int(self._id)
-        self.head = int(self.head)
+        try:
+            self.head = int(self.head)
+        except ValueError:
+            pass
+            # do nothing, fails for test file
+            # since there are no heads
 
     # create a representation like the conllu06 format
     def __str__(self):
