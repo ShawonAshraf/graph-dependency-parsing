@@ -59,6 +59,8 @@ def cle(graph: Graph) -> Graph:
     for node in graph.nodes[1:]:
         # find max incoming node id
         incoming = node.incoming
+        # this causes a problem while looking for node->self mapping, which
+        # shouldn't exist, so add root as default
         max_node_id = max(incoming, key=incoming.get, default=0)  # type: ignore
         max_node_weight = max(incoming.values(), default=-np.Inf)
         max_node = graph.nodes[max_node_id]
