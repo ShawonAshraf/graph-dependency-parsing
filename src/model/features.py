@@ -90,7 +90,7 @@ def preprocess(sentences: List[Sentence]):
 
 # features from one sentence
 def vectorize_feature_list(fdict: Dict, sentence_features: List[List[str]]) -> np.ndarray:
-    vector = np.ones(shape=(len(sentence_features, ), len(sentence_features[0]))) * -1.0
+    vector = np.ones(shape=(len(sentence_features, ), len(sentence_features[1]))) * -1.0
 
     for i, token_features in enumerate(sentence_features):
         for j, tokf in enumerate(token_features):
