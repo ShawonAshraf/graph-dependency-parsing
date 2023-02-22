@@ -9,7 +9,7 @@ from data.sentence import Sentence
 # feature class for a single sentence
 @dataclass
 class ProcessedInstance:
-    features: List[str]
+    features: List[List[str]]
     labels: List[Tuple]
 
 
@@ -89,12 +89,13 @@ def preprocess(sentences: List[Sentence]):
 
 
 # features from one sentence
-def vectorize_feature_list(fdict: Dict, features: List[str]) -> np.ndarray:
-    vector = np.ones(shape=(len(features, ))) * -1.0
+def vectorize_feature_list(fdict: Dict, sentence_features: List[List[str]]) -> np.ndarray:
+    vector = np.ones(shape=(len(sentence_features, ), len(sentence_features[0]))) * -1.0
 
-    for idx, feat in enumerate(features):
-        if feat in fdict.keys():
-            vector[idx] = fdict[feat]
+    for i, token_features in enumerate(sentence_features):
+        for j, tokf in enumerate(token_features):
+            if tokf in fdict.keys():
+                vector[i][j] = fdict[tokf]
 
     return vector
 
