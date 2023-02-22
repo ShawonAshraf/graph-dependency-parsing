@@ -73,17 +73,17 @@ def preprocess(sentences: List[Sentence]):
 
     # counts index for feature dict keys
     fc = 0
-    for idx, sentence in tqdm(enumerate(sentences), desc="preprocess"):
-        token_features = extract_feature(sentence)
+    for _, sentence in tqdm(enumerate(sentences), desc="preprocess"):
+        sentence_features = extract_feature(sentence)
         labels = get_labels(sentence)
 
-        for token_features in token_features:
+        for token_features in sentence_features:
             for tokf in token_features:
                 if tokf not in feature_dict.keys():
                     feature_dict[tokf] = fc + 1
                     fc += 1
 
-        all_features.append(ProcessedInstance(token_features, labels))
+        all_features.append(ProcessedInstance(sentence_features, labels))
 
     return feature_dict, all_features
 
