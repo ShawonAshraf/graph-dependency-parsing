@@ -1,9 +1,13 @@
 import numpy as np
 from typing import Dict, List
-from tqdm.auto import trange
-from .features import ProcessedInstance
+from tqdm.auto import trange, tqdm
+from .features import extract_feature_permutation
 import gzip
 import pickle
+from data.sentence import Sentence
+from data.conll06_token import Conll06Token
+import multiprocessing as mp
+from ctypes import c_float
 
 
 # for scoring arcs
@@ -23,14 +27,6 @@ class Perceptron:
                 # assign 0 as a starter value
                 self.weights[feature] = 0.0
 
-    # sorts the weight dict
-    def sort(self):
-        self.weights = dict(
-            sorted(
-                self.weights.items(), reverse=True, key=lambda x: x[1]
-            )
-        )
-
     # feature list is the list containing all features for a token
     def score(self, feature_list: List[str]):
         s = 0.0
@@ -39,17 +35,41 @@ class Perceptron:
                 s += self.weights[f]
         return s
 
+    def train(self, epochs: int, sentences: List[Sentence]):
+        for e in trange(epochs):
+            for idx, sentence in tqdm(enumerate(sentences)):
+                tokens = sentence.tokens
 
+                # create all possible feature permutations
+                for token in tokens:
+                    pred, features = self.predict(token, tokens)
+                    # update weights for the actual head
+                    self.update(features[pred], features[token.head])
 
-    def train(self, epochs, processed_instances: List[ProcessedInstance]):
-        pass
+    def predict(self, token: Conll06Token, tokens: List[Conll06Token]):
+        scores = list()
+        features = list()
 
-    # update the corresponding token feature weights
-    def update(self, factor: float, sentence_features: List[List[str]]) -> None:
-        for token_features in sentence_features:
-            for tokf in token_features:
-                if tokf in self.weights.keys():
-                    self.weights[tokf] += factor
+        # score all probable heads against other tokens
+        for probable_head in tokens:
+            feats = extract_feature_permutation(probable_head, token, tokens)
+            score = self.score(feats)
+            features.append(feats)
+            scores.append(score)
+
+        pred = np.argmax(scores)
+        return pred, features
+
+    def update(self, pred_features, actual_features) -> None:
+
+        def update_weight(feature, factor):
+            if feature in self.weights.keys():
+                self.weights[f] += factor
+
+        for f in actual_features:
+            update_weight(f, 1.0)
+        for f in pred_features:
+            update_weight(f, -1.0)
 
     # save the weight dict to the disc
     # out_path must also include file name
