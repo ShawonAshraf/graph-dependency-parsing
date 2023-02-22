@@ -2,7 +2,7 @@ import numpy as np
 
 
 class Perceptron:
-    def __init__(self, n_features: int, bias: bool):
+    def __init__(self, n_features: int, bias=True):
         self.n_features = n_features
         self.weight = np.random.normal(size=(self.n_features,))
 
@@ -12,6 +12,12 @@ class Perceptron:
         pass
 
     def update(self):
+        pass
+
+    def average(self):
+        pass
+
+    def save(self):
         pass
 
 
