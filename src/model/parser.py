@@ -15,6 +15,9 @@ class Parser:
 
         self.decoder_fn = decoder_fn
 
+        # for logging
+        self.uas_scores_over_epochs = list()
+
     # a forward pass for the parser
     # parse tokens from a single sentence
     def parse(self, sentence_features: List[List[str]]):
@@ -50,6 +53,9 @@ class Parser:
               dev_instances: List[ProcessedInstance]):
         print("\n================ Training Parser ===============\n")
         self.perceptron.train(epochs, train_instances)
-        # TODO: log uas
         # shuffle train_instances
         np.random.shuffle(train_instances)
+
+    # generate a tree from the predicted results
+    def generate_tree_from_pred(self):
+        pass
