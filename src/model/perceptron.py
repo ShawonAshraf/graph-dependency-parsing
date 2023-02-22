@@ -6,6 +6,7 @@ import gzip
 import pickle
 
 
+# for scoring arcs
 class Perceptron:
     def __init__(self, feature_dict: Dict, normalise=False, train=True):
         self.feature_dict = feature_dict
