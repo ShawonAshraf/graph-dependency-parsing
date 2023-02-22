@@ -28,6 +28,7 @@ if __name__ == "__main__":
 
     fdict, fs = preprocess(train)
     # print(create_vector_representation(fdict, fs))
+    print(fdict)
 
     rep = create_vector_representation(fdict, fs)
     lab = encode_labels(fs)

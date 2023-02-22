@@ -17,10 +17,10 @@ class ProcessedInstance:
 # returns a list of feature strings
 
 
-def extract_feature(sentence: Sentence) -> List[str]:
+def extract_feature(sentence: Sentence) -> List[List[str]]:
     tokens = sentence.tokens
 
-    features: List[str] = list()
+    features = list()
 
     for idx, tok in enumerate(tokens):
         # check if head is root (_id = 0)
@@ -41,9 +41,15 @@ def extract_feature(sentence: Sentence) -> List[str]:
         # if the last token in the sentence add EOS
         dform_plus_1 = tokens[idx + 1].form if not idx == len(tokens) - 1 else "<EOS>"
 
-        # add all to a string
-        feature_str = f"hform={hform},dform={dform},hform+1={hform_plus_1},dform+1={dform_plus_1}"
-        features.append(feature_str)
+        # create indivudal features as strings and
+        # and add them to the features list
+        features.append([
+            f"hform={hform}",
+            f"dform = {dform}",
+            f"hform+1={hform_plus_1}",
+            f"dform+1={dform_plus_1}"
+
+        ])
 
     return features
 
@@ -65,20 +71,19 @@ def preprocess(sentences: List[Sentence]):
     feature_dict = dict()
     all_features: List[ProcessedInstance] = list()
 
-    feature_counter = 0
-
+    # counts index for feature dict keys
+    fc = 0
     for idx, sentence in tqdm(enumerate(sentences), desc="preprocess"):
-        features = extract_feature(sentence)
+        token_features = extract_feature(sentence)
         labels = get_labels(sentence)
 
-        for feat in features:
-            if feat not in feature_dict.keys():
-                feature_dict[feat] = feature_counter + 1
-                feature_counter += 1  # inc after each entry
-            else:
-                continue
+        for token_features in token_features:
+            for tokf in token_features:
+                if tokf not in feature_dict.keys():
+                    feature_dict[tokf] = fc + 1
+                    fc += 1
 
-        all_features.append(ProcessedInstance(features, labels))
+        all_features.append(ProcessedInstance(token_features, labels))
 
     return feature_dict, all_features
 
@@ -106,7 +111,7 @@ def create_vector_representation(fdict: Dict, preprocessed: List[ProcessedInstan
 
 # encode the labels
 # convert rel labels to digits
-def encode_labels(preprocessed: List[ProcessedInstance]) -> List[Tuple]:
+def encode_labels(preprocessed: List[ProcessedInstance]) -> List[List[Tuple]]:
     encoded = list()
 
     all_labels = {'IM', 'P', 'QMOD', 'OPRD', 'INTJ', 'CONJ', 'SBJ', 'PRT',
