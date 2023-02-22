@@ -90,11 +90,20 @@ class Parser:
 
         return np.mean(scores)
 
-    def save_scores(self):
+    def save_scores(self) -> None:
         with gzip.open("scores.pickle", "wb") as fp:
             pickle.dump(self.uas_train_scores_over_epochs)
             pickle.dump(self.uas_train_scores_over_epochs)
 
-    def generate_tree(self, sentences: List[Sentence], features: List[List[str]]):
-        for idx, sentence in tqdm(enumerate(sentences)):
-            pass
+    def generate_tree(self, sentences: List[Sentence]) -> List[Sentence]:
+        tree_sents = sentences.copy()
+        for idx, sentence in tqdm(enumerate(tree_sents), desc="generating_trees"):
+            head, _ = self.parse(sentence)
+            tokens = sentence.tokens
+
+            for h, t in zip(head, tokens):
+                t.head = head
+
+        return tree_sents
+
+
