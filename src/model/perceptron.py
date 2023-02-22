@@ -17,7 +17,7 @@ class Perceptron:
     def make_gold_features(self, sentence: Sentence) -> None:
         features = set()
         for tokens in sentence.tokens:
-            for tok in tokens:
+            for tok in sentence.tokens:
                 head = tok.head
                 features.update(extract_feature_permutation(head, tok, tokens))
 
