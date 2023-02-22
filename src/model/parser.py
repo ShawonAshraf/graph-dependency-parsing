@@ -2,7 +2,7 @@ import numpy as np
 from tqdm.auto import tqdm, trange
 
 from .perceptron import Perceptron
-from .features import ProcessedInstance
+from .features import extract_feature_permutation
 from .eval import uas
 from typing import List, Dict, Callable
 from data.sentence import Sentence
