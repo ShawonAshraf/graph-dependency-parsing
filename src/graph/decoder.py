@@ -1,4 +1,4 @@
-from graph import Graph, has_cycle, construct_graph
+from .graph import Graph, has_cycle, construct_graph
 import numpy as np
 
 
