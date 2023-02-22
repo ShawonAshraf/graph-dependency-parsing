@@ -37,15 +37,10 @@ class Parser:
                 score_matrix[i][j] = score
                 features[i][j] = feat
 
-        heads = self.decoder_fn(score_matrix)
-        return heads, features
-
-
         # construct a graph and pass to decoder
         graph = self.decoder_fn(score_matrix)
 
         # get heads from the graph
-        n_tokens = len(sentence_features)
         heads = np.ones(shape=(n_tokens,))
         for node in graph.nodes:
             _id = node.node_id
@@ -59,7 +54,7 @@ class Parser:
             heads[_id - 1] = incoming[0]
 
         assert heads.shape[0] == n_tokens
-        return heads
+        return heads, features
 
     # train only the perceptron
     # the decoder isn't trainable
