@@ -7,16 +7,15 @@ import pickle
 
 
 class Perceptron:
-    def __init__(self, feature_dict: Dict, normalise=False, train=True, pretrained_weights=None):
+    def __init__(self, feature_dict: Dict, normalise=False, train=True):
         self.feature_dict = feature_dict
         self.weights = {}
         self.normalise = normalise
 
-        # only init weights for training, otherwise load pretrained weights
+        # only init weights for training,
+        # otherwise load pretrained weights ( to be called by the user )
         if train:
             self.init_weights()
-        else:
-            self.weights = pretrained_weights
 
     def init_weights(self):
         for feature in self.feature_dict.keys():
@@ -92,6 +91,16 @@ class Perceptron:
         try:
             with gzip.open(out_path, "wb") as fp:
                 pickle.dump(self.weights, fp)
+        except FileExistsError as e:
+            print(e)
+        except FileNotFoundError as e:
+            print(e)
+
+    # load saved weights
+    def load(self, file_path) -> None:
+        try:
+            with gzip.open(file_path, "rb") as fp:
+                self.weights = pickle.load(fp)
         except FileExistsError as e:
             print(e)
         except FileNotFoundError as e:

@@ -3,6 +3,7 @@ import json
 from data.io import read_conll06_file
 from model.eval import las, uas
 from model.features import preprocess, create_vector_representation, encode_labels
+from model.perceptron import Perceptron
 
 # read configs from a json file for now
 # replace later with argparse
@@ -27,11 +28,17 @@ if __name__ == "__main__":
     print(las_score)
 
     fdict, fs = preprocess(train)
-    # print(create_vector_representation(fdict, fs))
-    print(fs[1])
+    p = Perceptron(fdict, normalise=True)
+    p.train(1, fs)
+    # p.save("./pickle.out")
+    # p.load("./pickle.out")
+    # print(p.weights)
 
-    rep = create_vector_representation(fdict, fs)
-    lab = encode_labels(fs)
+    # print(create_vector_representation(fdict, fs))
+    # print(fs[1])
+
+    # rep = create_vector_representation(fdict, fs)
+    # lab = encode_labels(fs)
     # print(rep[0])
 
     # print(fdict)
