@@ -83,6 +83,12 @@ def cle(graph: Graph) -> Graph:
     return graph
 
 
+# run bot construct and decode in one function
+def construct_and_decode(matrix: np.ndarray) -> Graph:
+    graph = construct_graph(matrix)
+    return cle(graph)
+
+
 if __name__ == "__main__":
 
     adjacency_matrix = np.array([
