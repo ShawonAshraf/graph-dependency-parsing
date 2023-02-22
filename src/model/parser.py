@@ -21,9 +21,26 @@ class Parser:
 
     # a forward pass for the parser
     # parse tokens from a single sentence
-    def parse(self, sentence_features: List[List[str]]):
-        score_matrix = self.perceptron.forward(sentence_features)
-        # print(score_matrix)
+    def parse(self, sentence: Sentence):
+        n_tokens = len(sentence.tokens)
+        score_matrix = np.zeros(
+            (n_tokens, n_tokens)
+        )
+
+        features = dict()
+        # update the score matrix
+        for i, tok in enumerate(sentence.tokens):
+            features[i] = dict()
+            for j, head in enumerate(sentence.tokens):
+                feat = extract_feature_permutation(head, tok, sentence.tokens)
+                score = self.perceptron.score(feat)
+                score_matrix[i][j] = score
+                features[i][j] = feat
+
+        heads = self.decoder_fn(score_matrix)
+        return heads, features
+
+
         # construct a graph and pass to decoder
         graph = self.decoder_fn(score_matrix)
 
