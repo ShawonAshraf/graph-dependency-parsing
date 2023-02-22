@@ -6,6 +6,7 @@ from .features import extract_feature_permutation
 from .eval import uas
 from typing import List, Dict, Callable
 from data.sentence import Sentence
+from graph.graph import construct_graph
 import gzip
 import pickle
 
@@ -41,7 +42,8 @@ class Parser:
                 features[i][j] = feat
 
         # construct a graph and pass to decoder
-        graph = self.decoder_fn(score_matrix)
+        decoded = self.decoder_fn(score_matrix)
+        graph = construct_graph(decoded)
 
         # get heads from the graph
         heads = np.ones(shape=(n_tokens,))
