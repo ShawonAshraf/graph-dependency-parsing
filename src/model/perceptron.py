@@ -19,8 +19,27 @@ class Perceptron:
         if train:
             self.init_weights()
 
-    def init_weights(self):
-        for feature in self.feature_dict.keys():
+    def make_gold_features(self, sentence: Sentence):
+        features = set()
+        for tokens in sentence.tokens:
+            for tok in tokens:
+                head = tok.head
+                features.update(extract_feature_permutation(head, tok, tokens))
+
+            self.init_weights(features)
+
+    # creates all possible feature permutations be consideing tokens as heads to each other
+    def feature_permutations(self, sentence: Sentence):
+        features = set()
+        for tokens in sentence.tokens:
+            for head in tokens:
+                for token in tokens:
+                    features.update(extract_feature_permutation(head, token, tokens))
+
+        self.init_weights(features)
+
+    def init_weights(self, feature_set):
+        for feature in feature_set:
             if feature not in self.weights.keys():
                 # assign 0 as a starter value
                 self.weights[feature] = 0.0
