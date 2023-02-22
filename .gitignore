@@ -6,6 +6,7 @@ out.conll06
 
 .idea/
 *pickle*
+run.sh
 
 
 

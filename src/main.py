@@ -1,7 +1,7 @@
 import json
 import argparse
 
-from data.io import read_conll06_file
+from data.io import read_conll06_file, write_conll06_file
 from model.perceptron import Perceptron
 from graph.decoder import cle
 from model.parser import Parser
@@ -19,6 +19,8 @@ args = arg_parser.parse_args()
 if __name__ == "__main__":
     EPOCHS = 50
 
+    print(args)
+
     # load data
     train_set = read_conll06_file(args.trainf)
     dev_set = read_conll06_file(args.devf)
@@ -34,7 +36,8 @@ if __name__ == "__main__":
 
     # create parser
     parser = Parser(perceptron, decoder_fn)
-    parser.perceptron.batchify_features(train_set)
+    if args.mode == "train":
+        parser.perceptron.batchify_features(train_set)
 
     # train or test
     if args.mode == "train":
@@ -44,3 +47,7 @@ if __name__ == "__main__":
         # evaluate on test set
         uas_score = parser.eval(test_set)
         print(f"uas score on the test set :: {uas_score * 100}%")
+
+        # generate tree
+        tree = parser.generate_tree(test_set)
+        write_conll06_file(tree)
