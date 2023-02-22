@@ -17,19 +17,27 @@ class Parser:
 
     # a forward pass for the parser
     # parse tokens from a single sentence
-    def parse(self, token_features: List[str]):
-        score_matrix = self.perceptron.forward(token_features)
+    def parse(self, sentence_features: List[List[str]]):
+        score_matrix = self.perceptron.forward(sentence_features)
+        print(score_matrix)
         # construct a graph and pass to decoder
         graph = self.decoder_fn(score_matrix)
 
         # get heads from the graph
-        heads = np.ones(shape=(len(token_features, )))
+        n_tokens = len(sentence_features)
+        heads = np.ones(shape=(n_tokens,))
         for node in graph.nodes:
-            _id = node.id
-            incoming = node.incoming.keys()
+            _id = node.node_id
+            incoming = list(node.incoming.keys())
+
+            # ignore root
+            if _id == 0:
+                continue
+
             # take the first key
             heads[_id - 1] = incoming[0]
 
+        assert heads.shape[0] == n_tokens
         return heads
 
     # train only the perceptron
