@@ -121,7 +121,7 @@ def find_cycles(edges):
     indices = np.zeros_like(vertices) - 1
     lowlinks = np.zeros_like(vertices) - 1
     stack = []
-    onstack = np.zeros_like(vertices, dtype=np.bool)
+    onstack = np.zeros_like(vertices, dtype=np.bool_)
     current_index = 0
     cycles = []
 
