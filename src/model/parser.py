@@ -49,10 +49,7 @@ class Parser:
               train_instances: List[ProcessedInstance],
               dev_instances: List[ProcessedInstance]):
         print("\n================ Training Parser ===============\n")
-        for e in range(epochs):
-            print(f"epoch : {e + 1}")
-
-            # train pass
-            self.perceptron.train(epochs=epochs, processed_instances=train_instances)
-            # eval
-            train_preds = 0
+        self.perceptron.train(epochs, train_instances)
+        # TODO: log uas
+        # shuffle train_instances
+        np.random.shuffle(train_instances)
