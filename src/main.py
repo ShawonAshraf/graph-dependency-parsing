@@ -18,13 +18,15 @@ if __name__ == "__main__":
     gold = read_conll06_file(config["eval_gold"])
     pred = read_conll06_file(config["eval_pred"])
 
+    train = read_conll06_file(config["train"])
+
     uas_score = uas(gold, pred)
     print(uas_score)
 
     las_score = las(gold, pred)
     print(las_score)
 
-    fdict, fs = preprocess(gold)
+    fdict, fs = preprocess(train)
     # print(create_vector_representation(fdict, fs))
 
     rep = create_vector_representation(fdict, fs)

@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Tuple, Dict
+from tqdm.auto import tqdm
 
 import numpy as np
 from data.sentence import Sentence
@@ -59,13 +60,14 @@ def get_labels(sentence: Sentence) -> List[Tuple]:
     return labels
 
 
+# gets features from sentences
 def preprocess(sentences: List[Sentence]):
     feature_dict = dict()
     all_features: List[ProcessedInstance] = list()
 
     feature_counter = 0
 
-    for idx, sentence in enumerate(sentences):
+    for idx, sentence in tqdm(enumerate(sentences), desc="preprocess"):
         features = extract_feature(sentence)
         labels = get_labels(sentence)
 
