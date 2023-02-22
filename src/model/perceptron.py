@@ -3,11 +3,8 @@ from tqdm.auto import tqdm
 
 
 class Perceptron:
-    def __init__(self, n_features: int, bias=True):
-        self.n_features = n_features
-        self.weight = np.random.normal(size=(self.n_features,))
-
-        self.bias = np.random.normal(size=(self.n_features,)) if bias else None
+    def __init__(self):
+        pass
 
     def forward(self):
         pass
