@@ -41,24 +41,8 @@ class Parser:
                 score_matrix[i][j] = score
                 features[i][j] = feat
 
-        # construct a graph and pass to decoder
-        decoded = self.decoder_fn(score_matrix)
-        graph = construct_graph(decoded)
+        heads = self.decoder_fn(score_matrix)
 
-        # get heads from the graph
-        heads = np.ones(shape=(n_tokens,))
-        for node in graph.nodes:
-            _id = node.node_id
-            incoming = list(node.incoming.keys())
-
-            # ignore root
-            if _id == 0:
-                continue
-
-            # take the first key
-            heads[_id - 1] = incoming[0]
-
-        assert heads.shape[0] == n_tokens
         return heads, features
 
     # train only the perceptron
@@ -91,7 +75,9 @@ class Parser:
             preds, _ = self.parse(sentence)
             gold = [tok.head for tok in sentence.tokens]
 
-            scores.append(uas(gold, preds))
+            uas_score = np.count_nonzero(preds == gold)
+
+            scores.append(uas_score)
 
         return np.mean(scores)
 
@@ -110,5 +96,3 @@ class Parser:
                 t.head = head
 
         return tree_sents
-
-
