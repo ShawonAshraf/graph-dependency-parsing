@@ -68,7 +68,7 @@ class Parser:
               train_set: List[Sentence],
               dev_set: List[Sentence]):
         print("\n================ Training Parser ===============\n")
-        for _ in trange(epochs):
+        for e in trange(epochs):
             self.perceptron.train(epochs, sentences=train_set)
 
             # eval on train
@@ -78,6 +78,9 @@ class Parser:
             # eval on dev
             avg_dev_uas = self.eval(dev_set)
             self.uas_train_scores_over_epochs.append(avg_dev_uas)
+
+            # log
+            print(f"Epoch :: {e + 1}/{epochs} train_uas :: {avg_train_uas} dev_uas :: {avg_dev_uas}")
 
     def eval(self, sentences: List[Sentence]):
         scores = list()
