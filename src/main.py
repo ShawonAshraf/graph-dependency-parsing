@@ -18,4 +18,10 @@ if __name__ == "__main__":
     dev = read_conll06_file(config["dev"])
     test = read_conll06_file(config["test"])
 
+    perceptron = Perceptron()
+    decoder_fn = construct_and_decode
+
+
+    parser = Parser(perceptron, decoder_fn)
+    parser.perceptron.make_gold_features(train)
 

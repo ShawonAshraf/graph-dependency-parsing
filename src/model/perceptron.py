@@ -10,13 +10,9 @@ from data.conll06_token import Conll06Token
 
 # for scoring arcs
 class Perceptron:
-    def __init__(self, train=True):
+    def __init__(self, is_train=True):
         self.weights = {}
-
-        # only init weights for training,
-        # otherwise load pretrained weights ( to be called by the user )
-        if train:
-            self.init_weights()
+        self.is_train = is_train
 
     def make_gold_features(self, sentence: Sentence) -> None:
         features = set()
@@ -36,6 +32,13 @@ class Perceptron:
                     features.update(extract_feature_permutation(head, token, tokens))
 
         self.init_weights(features)
+
+    def batchify_features(self, sentences: List[Sentence]) -> None:
+        for idx, sent in tqdm(enumerate(sentences)):
+            if self.is_train:
+                self.feature_permutations(sent)
+            else:
+                self.make_gold_features(sent)
 
     def init_weights(self, feature_set: Set) -> None:
         for feature in feature_set:
