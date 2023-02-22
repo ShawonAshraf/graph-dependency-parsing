@@ -85,8 +85,8 @@ def cle(graph: Graph) -> Graph:
 
 # run bot construct and decode in one function
 def construct_and_decode(matrix: np.ndarray) -> Graph:
-    graph = construct_graph(matrix)
-    return cle(graph)
+    g = construct_graph(matrix)
+    return cle(g)
 
 
 if __name__ == "__main__":
