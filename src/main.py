@@ -28,10 +28,11 @@ if __name__ == "__main__":
 
     fdict, fs = preprocess(train)
     # print(create_vector_representation(fdict, fs))
-    print(fdict)
+    print(fs[1])
 
     rep = create_vector_representation(fdict, fs)
     lab = encode_labels(fs)
+    # print(rep[0])
 
     # print(fdict)
     # print(gold[23])
