@@ -23,5 +23,5 @@ if __name__ == "__main__":
 
 
     parser = Parser(perceptron, decoder_fn)
-    parser.perceptron.make_gold_features(train)
+    parser.perceptron.batchify_features(train)
 

@@ -26,10 +26,10 @@ class Perceptron:
     # creates all possible feature permutations be consideing tokens as heads to each other
     def feature_permutations(self, sentence: Sentence) -> None:
         features = set()
-        for tokens in sentence.tokens:
-            for head in tokens:
-                for token in tokens:
-                    features.update(extract_feature_permutation(head, token, tokens))
+        for head in sentence.tokens:
+            for token in sentence.tokens:
+                features.update(extract_feature_permutation(head, token, sentence.tokens))
+
 
         self.init_weights(features)
 
