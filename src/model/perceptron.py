@@ -6,8 +6,6 @@ import gzip
 import pickle
 from data.sentence import Sentence
 from data.conll06_token import Conll06Token
-import multiprocessing as mp
-from ctypes import c_float
 
 
 # for scoring arcs
