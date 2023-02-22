@@ -1,7 +1,9 @@
 import numpy as np
 from typing import Dict, List
-from tqdm.auto import tqdm, trange
+from tqdm.auto import trange
 from .features import ProcessedInstance
+import gzip
+import pickle
 
 
 class Perceptron:
@@ -84,8 +86,16 @@ class Perceptron:
                 if tokf in self.weights.keys():
                     self.weights[tokf] += factor
 
-    def save(self):
-        pass
+    # save the weight dict to the disc
+    # out_path must also include file name
+    def save(self, out_path: str) -> None:
+        try:
+            with gzip.open(out_path, "wb") as fp:
+                pickle.dump(self.weights, fp)
+        except FileExistsError as e:
+            print(e)
+        except FileNotFoundError as e:
+            print(e)
 
 
 if __name__ == "__main__":
