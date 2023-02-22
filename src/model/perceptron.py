@@ -60,7 +60,7 @@ class Perceptron:
         return score_matrix
 
     def train(self, epochs, processed_instances: List[ProcessedInstance]):
-        for e in trange(epochs):
+        for _ in trange(epochs):
             for _, pi in enumerate(processed_instances):
                 sentence_features = pi.features
                 labels = pi.labels
