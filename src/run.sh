@@ -1,0 +1,1 @@
+python main.py --mode train --trainf /home/shawon/Projects/parser-data/english/train/wsj_train.first-1k.conll06 --devf /home/shawon/Projects/parser-data/english/dev/wsj_dev.conll06.gold --testf /home/shawon/Projects/parser-data/english/test/wsj_test.conll06.blind --saved_w_path w.pickle

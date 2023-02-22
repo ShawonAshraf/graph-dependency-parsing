@@ -63,7 +63,7 @@ class Perceptron:
                 for token in tokens:
                     pred, features = self.predict(token, tokens)
                     # update weights for the actual head
-                    self.update(features[pred], features[token.head])
+                    self.update(features[pred], features[token.head - 1])
 
     def predict(self, token: Conll06Token, tokens: List[Conll06Token]):
         scores = list()

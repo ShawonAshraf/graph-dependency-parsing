@@ -3,7 +3,7 @@ import argparse
 
 from data.io import read_conll06_file
 from model.perceptron import Perceptron
-from graph.decoder import construct_and_decode
+from graph.decoder import cle
 from model.parser import Parser
 
 # CLI args
@@ -30,7 +30,7 @@ if __name__ == "__main__":
         perceptron.load(args.saved_w_path)
 
     # cle decoder
-    decoder_fn = construct_and_decode
+    decoder_fn = cle
 
     # create parser
     parser = Parser(perceptron, decoder_fn)
