@@ -15,11 +15,16 @@ pip install -r requirements.txt
 ### entry point
 ```bash
 cd src
-python main.py --mode --trainf --devf --testf
+python main.py --mode --trainf --devf --testf --saved_w_path
 ```
 
 --trainf, --devf, --testf are the paths to the training,
 dev and test files.
+
+--mode : train or test
+
+--saved_w_path: (optional) path where the trained model should be saved
+or from where the pretrained weights should be loaded.
 
 ### hparams
 Currently the model trains for `50` epochs
