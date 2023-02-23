@@ -45,7 +45,7 @@ if __name__ == "__main__":
         parser.perceptron.save(args.saved_w_path)
     else:
         # evaluate on test set
-        uas_score = parser.eval(test_set)
+        uas_score, preds = parser.eval(test_set)
         print(f"uas score on the test set :: {uas_score * 100}%")
 
         # generate tree

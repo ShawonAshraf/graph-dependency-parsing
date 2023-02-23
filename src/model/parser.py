@@ -58,11 +58,11 @@ class Parser:
             self.perceptron.train(epochs=1, sentences=train_set)
 
             # eval on train
-            avg_train_uas = self.eval(train_set)
+            avg_train_uas, _ = self.eval(train_set)
             self.uas_train_scores_over_epochs.append(avg_train_uas)
 
             # eval on dev
-            avg_dev_uas = self.eval(dev_set)
+            avg_dev_uas, _ = self.eval(dev_set)
             self.uas_train_scores_over_epochs.append(avg_dev_uas)
 
             # log
@@ -79,7 +79,7 @@ class Parser:
 
             scores.append(uas_score)
 
-        return np.mean(scores)
+        return np.mean(scores), preds
 
     def save_scores(self) -> None:
         with gzip.open("scores.pickle", "wb") as fp:
