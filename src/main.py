@@ -50,4 +50,4 @@ if __name__ == "__main__":
 
         # generate tree
         tree = parser.generate_tree(test_set)
-        write_conll06_file(tree)
+        write_conll06_file(tree, "pred.conll06")
