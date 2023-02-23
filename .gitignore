@@ -337,3 +337,4 @@ pip-selfcheck.json
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv,visualstudiocode,pycharm+iml,macos
+src/pred.conll06
