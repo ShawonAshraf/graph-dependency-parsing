@@ -338,3 +338,4 @@ pip-selfcheck.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python,virtualenv,visualstudiocode,pycharm+iml,macos
 src/pred.conll06
+src/run.sh
