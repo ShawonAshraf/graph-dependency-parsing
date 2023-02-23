@@ -17,7 +17,7 @@ arg_parser.add_argument("--saved_w_path", type=str, required=False, default="wei
 args = arg_parser.parse_args()
 
 if __name__ == "__main__":
-    EPOCHS = 50
+    EPOCHS = 15
 
     print(args)
 
@@ -28,7 +28,7 @@ if __name__ == "__main__":
 
     # create perceptron
     perceptron = Perceptron(is_train=True if args.mode == "train" else False)
-    if args.mode == "train":
+    if args.mode == "test":
         perceptron.load(args.saved_w_path)
 
     # cle decoder
@@ -46,7 +46,6 @@ if __name__ == "__main__":
     else:
         # evaluate on test set
         uas_score, preds = parser.eval(test_set)
-        print(f"uas score on the test set :: {uas_score * 100}%")
 
         # generate tree
         tree = parser.generate_tree(test_set)
