@@ -93,6 +93,6 @@ class Parser:
             tokens = sentence.tokens
 
             for h, t in zip(head, tokens):
-                t.head = head
+                t.head = h
 
         return tree_sents
