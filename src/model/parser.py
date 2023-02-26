@@ -82,9 +82,10 @@ class Parser:
         return np.mean(scores), preds
 
     def save_scores(self) -> None:
-        with gzip.open("scores.pickle", "wb") as fp:
-            pickle.dump(self.uas_train_scores_over_epochs)
-            pickle.dump(self.uas_train_scores_over_epochs)
+        with gzip.open("train_scores.pickle", "wb") as fp:
+            pickle.dump(self.uas_train_scores_over_epochs, fp)
+        with gzip.open("dev_scores.pickle", "wb") as fp:
+            pickle.dump(self.uas_dev_scores_over_epochs, fp)
 
     def generate_tree(self, sentences: List[Sentence]) -> List[Sentence]:
         tree_sents = sentences.copy()

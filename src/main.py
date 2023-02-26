@@ -17,7 +17,7 @@ arg_parser.add_argument("--saved_w_path", type=str, required=False, default="wei
 args = arg_parser.parse_args()
 
 if __name__ == "__main__":
-    EPOCHS = 15
+    EPOCHS = 50
 
     print(args)
 
@@ -43,6 +43,7 @@ if __name__ == "__main__":
     if args.mode == "train":
         parser.train(EPOCHS, train_set, dev_set)
         parser.perceptron.save(args.saved_w_path)
+        parser.save_scores()
     else:
         # evaluate on test set
         uas_score, preds = parser.eval(test_set)
